@@ -12,39 +12,26 @@ int main() { return yyparse(); }
 %}
 %union {
     int intval;
+    char *id;
+    struct Node *node;
 }
 
 %token <intval> NUM
-%type <intval> exp
+%token <id> ID
+%token SIN COS TAN
+%token POW
 
 %left '-' '+'
 %left '*' '/'
-%right '*''*' //"**"
-%left 'sin' 'cos' 'tan'
+%left SIN COS TAN 
+%right POW
 
 %%
-input:
-    | input line
-    ;
 
-line: '\n'
-    | exp '\n' {printf("questo valore è %d \n", $1); }
-    ;
 
-exp : NUM         { $$=$1    ;   }
-    | '-' exp exp { $$=$2-$3 ;   }
-    | '+' exp exp { $$=$2+$3 ;   }
-    | '*' exp exp { $$=$2*$3 ;   }
-    | '/' exp exp { if ($3 == 0) {
-                        yyerror("Divisione per zero");
-                        $$ = 0;
-                    } else {
-                        $$ = $2 / $3;
-                    }
-                  }
-    | '(' exp ')' {$$=$2    ;   }
-    | exp '*''*'
-    ;
+
+
+
 
 
 %%

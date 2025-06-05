@@ -22,19 +22,23 @@ L’analizzatore deve restituire l’albero della struttura sintattica dell’es
 #include "parser.tab.h"
 %}
 %%
-[ \t]           ;                   // ignora spazi e tab
-[\+\-]?[0-9]+          { yylval.intval = atoi(yytext); return NUM; }
+[ \t]           ;      // ignora spazi e tab
+[0-9]+          { yylval.intval = atoi(yytext); return NUM; }       //numero naturale
+[a-zA-Z_][a-zA-Z0-9_]* { yylval.id = strdup(yytext); return ID; }   // identificatore
+
 \n              { return '\n'; }
+
 "+"             { return '+'; }
 "-"             { return '-'; }
 "*"             { return '*'; }
 "/"             { return '/'; }
 "("             { return '('; }
 ")"             { return ')'; }
-"**"            { return "**" }
-"sin"           { return "sin"; }
-"cos"           { return "cos"; }
-"tan"           { return "tan"; }
+
+"**"            { return POW; }
+"sin"           { return SIN; }
+"cos"           { return COS; }
+"tan"           { return TAN; }
 
 .               { printf("Carattere non riconosciuto: %s\n", yytext); }
 %%
