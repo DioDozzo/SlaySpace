@@ -24,7 +24,6 @@ L’analizzatore deve restituire l’albero della struttura sintattica dell’es
 %%
 [ \t]           ;      // ignora spazi e tab
 [0-9]+          { yylval.intval = atoi(yytext); return NUM; }       //numero naturale
-[a-zA-Z_][a-zA-Z0-9_]* { yylval.id = strdup(yytext); return ID; }   // identificatore
 
 \n              { return '\n'; }
 
@@ -32,6 +31,7 @@ L’analizzatore deve restituire l’albero della struttura sintattica dell’es
 "-"             { return '-'; }
 "*"             { return '*'; }
 "/"             { return '/'; }
+
 "("             { return '('; }
 ")"             { return ')'; }
 
@@ -39,6 +39,8 @@ L’analizzatore deve restituire l’albero della struttura sintattica dell’es
 "sin"           { return SIN; }
 "cos"           { return COS; }
 "tan"           { return TAN; }
+
+[a-zA-Z_][a-zA-Z0-9_]* { yylval.id = strdup(yytext); return ID; }   // identificatore
 
 .               { printf("Carattere non riconosciuto: %s\n", yytext); }
 %%
